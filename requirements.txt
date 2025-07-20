@@ -1,0 +1,9 @@
+google-generativeai
+python-dotenv
+jinja2
+typer  # For CLI
+boto3  # AWS SDK
+google-cloud-storage  # GCP SDK
+azure-identity  # Azure SDK
+pytest  # Testing
+dotenv

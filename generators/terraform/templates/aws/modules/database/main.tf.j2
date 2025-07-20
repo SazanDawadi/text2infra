@@ -1,0 +1,15 @@
+# src/generators/terraform/templates/aws/modules/database/main.tf.j2
+resource "aws_db_instance" "default" {
+  allocated_storage    = var.allocated_storage
+  engine              = var.db_engine
+  engine_version      = var.db_engine_version
+  instance_class      = "db.t3.micro"
+  name                = "mydb"
+  username            = "admin"
+  password            = "changeme" # Use secrets in production!
+  skip_final_snapshot = true
+}
+
+output "db_endpoint" {
+  value = aws_db_instance.default.endpoint
+}

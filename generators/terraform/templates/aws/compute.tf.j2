@@ -1,0 +1,25 @@
+# src/generators/terraform/templates/aws/compute.tf.j2
+resource "aws_instance" "web_server" {
+  ami           = "{{ config.ami }}"
+  instance_type = "{{ config.instance_type }}"
+  
+  {% if config.memory %}
+  ebs_optimized = {{ "true" if config.memory|int > 8 else "false" }}
+  {% endif %}
+  
+  tags = {
+    Name = "web-server"
+  }
+}
+
+{% if config.count and config.count > 1 %}
+resource "aws_instance" "web_server_cluster" {
+  count         = {{ config.count - 1 }}
+  ami           = "{{ config.ami }}"
+  instance_type = "{{ config.instance_type }}"
+  
+  tags = {
+    Name = "web-server-${count.index + 1}"
+  }
+}
+{% endif %}

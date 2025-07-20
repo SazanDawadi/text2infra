@@ -1,0 +1,33 @@
+# src/generators/terraform/templates/aws/main.tf.j2
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+{% if has_compute %}
+module "compute" {
+  source = "./modules/compute"
+  
+  instance_count = var.instance_count
+  instance_type = var.instance_type
+  ami           = var.ami
+}
+{% endif %}
+
+{% if has_database %}
+module "database" {
+  source = "./modules/database"
+  
+  db_engine         = var.db_engine
+  db_engine_version = var.db_engine_version
+  allocated_storage = var.allocated_storage
+}
+{% endif %}

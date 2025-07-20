@@ -1,0 +1,11 @@
+# src/generators/terraform/templates/aws/database.tf.j2
+resource "aws_db_instance" "database" {
+  allocated_storage    = {{ config.size|replace('GB', '') }}
+  engine              = "{{ config.engine }}"
+  engine_version      = "{{ config.engine_version }}"
+  instance_class      = "{{ config.instance_class }}"
+  name                = "mydatabase"
+  username            = "admin"
+  password            = "changeme"  # In production, use secrets manager!
+  skip_final_snapshot = true
+}

@@ -1,0 +1,14 @@
+# src/generators/terraform/templates/aws/modules/compute/main.tf.j2
+resource "aws_instance" "web" {
+  count         = var.instance_count
+  ami           = var.ami
+  instance_type = var.instance_type
+
+  tags = {
+    Name = "web-server-${count.index}"
+  }
+}
+
+output "instance_public_ips" {
+  value = aws_instance.web[*].public_ip
+}

@@ -1,0 +1,14 @@
+# src/generators/terraform/templates/aws/outputs.tf.j2
+{% if has_compute %}
+output "instance_public_ips" {
+  description = "Public IP addresses of EC2 instances"
+  value       = module.compute.instance_public_ips
+}
+{% endif %}
+
+{% if has_database %}
+output "db_endpoint" {
+  description = "Database connection endpoint"
+  value       = module.database.db_endpoint
+}
+{% endif %}

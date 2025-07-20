@@ -1,0 +1,46 @@
+# src/generators/terraform/templates/aws/variables.tf.j2
+variable "aws_region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
+}
+
+{% if compute_config %}
+variable "instance_count" {
+  description = "Number of EC2 instances"
+  type        = number
+  default     = {{ compute_config.get("count", 1) }}
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "{{ compute_config.get("instance_type", "t3.medium") }}"
+}
+
+variable "ami" {
+  description = "AMI ID"
+  type        = string
+  default     = "{{ compute_config.get("ami", "ami-0c55b159cbfafe1f0") }}"
+}
+{% endif %}
+
+{% if database_config %}
+variable "db_engine" {
+  description = "Database engine"
+  type        = string
+  default     = "{{ database_config.get("engine", "postgres") }}"
+}
+
+variable "db_engine_version" {
+  description = "Database engine version"
+  type        = string
+  default     = "{{ database_config.get("engine_version", "12.5") }}"
+}
+
+variable "allocated_storage" {
+  description = "Storage size in GB"
+  type        = number
+  default     = {{ database_config.get("size", "20")|replace("GB", "") }}
+}
+{% endif %}
